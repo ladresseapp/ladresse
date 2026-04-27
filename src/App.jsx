@@ -224,29 +224,22 @@ const Toast = ({ msg, onHide }) => {
 };
 
 const FilterPill = ({ label, options, value, onChange, isObj }) => {
-  const [open, setOpen] = useState(false);
-  const ref = useRef();
-  useEffect(() => {
-    const h = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, []);
   const defVal = isObj ? options[0]?.value : options[0];
   const isActive = value !== defVal;
   const display = isObj ? (options.find(o => o.value===value)?.label || label) : (isActive ? value : label);
   return (
-    <div ref={ref} style={{ position:"relative" }}>
-      <button onClick={() => setOpen(o => !o)} style={{ display:"flex", alignItems:"center", gap:5, padding:"8px 14px", borderRadius:30, border:`1.5px solid ${isActive?"#C8914A":"#DDD"}`, background:isActive?"#FBF0E8":"#FFF", color:isActive?"#C8914A":"#666", fontSize:13, fontWeight:isActive?700:500, cursor:"pointer", fontFamily:"'Lato',sans-serif", whiteSpace:"nowrap" }}>
-        {display}<span style={{ fontSize:9, opacity:0.5 }}>▼</span>
-      </button>
-      {open && (
-        <div style={{ position:"absolute", top:"calc(100% + 6px)", left:0, background:"#FFF", borderRadius:14, padding:6, boxShadow:"0 8px 32px rgba(0,0,0,0.14)", zIndex:300, minWidth:170, border:"1px solid #F0EDE8" }}>
-          {options.map(o => {
-            const val=isObj?o.value:o, lbl=isObj?o.label:o, sel=value===val;
-            return <button key={val} onClick={() => { onChange(val); setOpen(false); }} style={{ display:"block", width:"100%", textAlign:"left", padding:"8px 12px", border:"none", borderRadius:8, background:sel?"#FBF0E8":"none", color:sel?"#C8914A":"#444", fontWeight:sel?700:400, fontSize:13, cursor:"pointer", fontFamily:"'Lato',sans-serif" }}>{lbl}</button>;
-          })}
-        </div>
-      )}
+    <div style={{ position:"relative" }}>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        style={{ appearance:"none", WebkitAppearance:"none", display:"flex", alignItems:"center", padding:"8px 28px 8px 14px", borderRadius:30, border:`1.5px solid ${isActive?"#C8914A":"#DDD"}`, background:isActive?"#FBF0E8":"#FFF", color:isActive?"#C8914A":"#666", fontSize:13, fontWeight:isActive?700:500, cursor:"pointer", fontFamily:"'Lato',sans-serif", whiteSpace:"nowrap", outline:"none" }}>
+        <option value={defVal}>{label}</option>
+        {options.map(o => {
+          const val=isObj?o.value:o, lbl=isObj?o.label:o;
+          return <option key={val} value={val}>{lbl}</option>;
+        })}
+      </select>
+      <span style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", fontSize:9, color:isActive?"#C8914A":"#666", pointerEvents:"none" }}>▼</span>
     </div>
   );
 };
@@ -275,7 +268,7 @@ const HorairesFilter = ({ value, onChange }) => {
         {cur.label}<span style={{ fontSize:9, opacity:0.5 }}>▼</span>
       </button>
       {open && (
-        <div style={{ position:"absolute", top:"calc(100% + 6px)", left:0, background:"#FFF", borderRadius:14, padding:6, boxShadow:"0 8px 32px rgba(0,0,0,0.14)", zIndex:300, minWidth:220, border:"1px solid #F0EDE8" }}>
+        <div style={{ position:"absolute", top:"calc(100% + 6px)", left:0, background:"#FFF", borderRadius:14, padding:6, boxShadow:"0 8px 32px rgba(0,0,0,0.14)", zIndex:300, minWidth:220, border:"1px solid #F0EDE8", maxHeight:220, overflowY:"auto" }}>
           {OPTS.map(o => (
             <button key={o.k} onClick={() => { onChange(o.k); setOpen(false); }} style={{ display:"flex", alignItems:"center", gap:8, width:"100%", textAlign:"left", padding:"9px 12px", border:"none", borderRadius:8, background:value===o.k?"#FBF0E8":"none", color:value===o.k?"#C8914A":"#444", fontWeight:value===o.k?700:400, fontSize:13, cursor:"pointer", fontFamily:"'Lato',sans-serif" }}>
               {o.dot && <span style={{ width:7, height:7, borderRadius:"50%", background:"#43A047", flexShrink:0 }} />}
