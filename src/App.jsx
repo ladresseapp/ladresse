@@ -135,9 +135,8 @@ const COLLECTIONS = [
   { id:"week",       titre:"Cette semaine",         emoji:"📅", desc:"Événements et soirées spéciales à ne pas rater", ids:[2,6,7,8] },
 ];
 
-const TYPES_RESTAURANT = ["Tous","Français","Japonais","Italien","Péruvien","Thaïlandais"];
-const TYPES_BAR        = ["Tous","Bar à vins","Bar lounge","Bar à cocktails","Bar à bières","Rooftop bar"];
-const ARRONDISSEMENTS  = ["Tous","75001","75002","75004","75005","75006","75009","75011","75013","75015"];
+const TYPES_RESTAURANT = ["Tous","Français","Japonais","Italien","Espagnol","Mexicain","Péruvien","Thaïlandais","Libanais","Grec","Indien","Chinois","Américain","Brasserie","Bistrot","Autre"];
+const TYPES_BAR        = ["Tous","Bar à vins","Bar lounge","Bar à cocktails","Bar à bières","Rooftop bar","Speakeasy","Bar à champagne","Cave à vins","Autre"];const ARRONDISSEMENTS  = ["Tous","75001","75002","75003","75004","75005","75006","75007","75008","75009","75010","75011","75012","75013","75014","75015","75016","75017","75018","75019","75020"];
 const AMBIANCES_RESTO  = ["Toutes","Romantique","Zen","Convivial","Authentique","Festif"];
 const AMBIANCES_BAR    = ["Toutes","Décontracté","Rooftop","Vintage","Convivial","Festif"];
 
