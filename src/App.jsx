@@ -25,9 +25,6 @@ const isValidSiret = (siret) => {
   if (!siret) return true;
   return /^\d{14}$/.test(siret.replace(/\s/g, ''));
 };
-const SUPABASE_URL = "https://pyvruioduqkyiwezqmdh.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5dnJ1aW9kdXFreWl3ZXpxbWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODU1NzMsImV4cCI6MjA5MTY2MTU3M30.e31b6Apvd4VYYS-UOnCFzKAd-0YuTNu7ZhPClmZQPMg";
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const S = {
   overlay: { position:"fixed", inset:0, background:"rgba(18,8,10,0.72)", display:"flex", alignItems:"center", justifyContent:"center", zIndex:1000, padding:"12px", backdropFilter:"blur(6px)" },
