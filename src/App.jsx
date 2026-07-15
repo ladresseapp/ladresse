@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+const SUPABASE_URL = "https://pyvruioduqkyiwezqmdh.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5dnJ1aW9kdXFreWl3ZXpxbWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODU1NzMsImV4cCI6MjA5MTY2MTU3M30.e31b6Apvd4VYYS-UOnCFzKAd-0YuTNu7ZhPClmZQPMg";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ─── SUPABASE CLIENT ───────────────────────────────────────────────────────────
 const sanitizeHTML = (str) => {
