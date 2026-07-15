@@ -2,26 +2,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 // ─── SUPABASE CLIENT ───────────────────────────────────────────────────────────
-const sanitizeHTML = (str) => {
-  if (typeof str !== 'string') return '';
-  const map = { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#x27;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;' };
-  return str.replace(/[&<>"'`=/]/g, (char) => map[char]);
-};
-
-const sanitizeInput = (input, maxLength = 1000) => {
-  if (typeof input !== 'string') return '';
-  return input.replace(/[\x00-\x1F\x7F]/g, '').trim().slice(0, maxLength);
-};
-
-const isValidEmail = (email) => {
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-  return emailRegex.test(email) && email.length <= 254;
-};
-
-const isValidSiret = (siret) => {
-  if (!siret) return true;
-  return /^\d{14}$/.test(siret.replace(/\s/g, ''));
-};
 const SUPABASE_URL = "https://pyvruioduqkyiwezqmdh.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5dnJ1aW9kdXFreWl3ZXpxbWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODU1NzMsImV4cCI6MjA5MTY2MTU3M30.e31b6Apvd4VYYS-UOnCFzKAd-0YuTNu7ZhPClmZQPMg";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -155,16 +135,11 @@ const COLLECTIONS = [
   { id:"week",       titre:"Cette semaine",         emoji:"📅", desc:"Événements et soirées spéciales à ne pas rater", ids:[2,6,7,8] },
 ];
 
-const TYPES_RESTAURANT = ["Tous","Français","Japonais","Italien","Péruvien","Thaïlandais"];
-const TYPES_BAR        = ["Tous","Bar à vins","Bar lounge","Bar à cocktails","Bar à bières","Rooftop bar"];
-const ARRONDISSEMENTS  = ["Tous","75001","75002","75004","75005","75006","75009","75011","75013","75015"];
+const TYPES_RESTAURANT = ["Tous","Français","Japonais","Italien","Espagnol","Mexicain","Péruvien","Thaïlandais","Libanais","Grec","Indien","Chinois","Américain","Brasserie","Bistrot","Autre"];
+const TYPES_BAR        = ["Tous","Bar à vins","Bar lounge","Bar à cocktails","Bar à bières","Rooftop bar","Speakeasy","Bar à champagne","Cave à vins","Autre"];const ARRONDISSEMENTS  = ["Tous","75001","75002","75003","75004","75005","75006","75007","75008","75009","75010","75011","75012","75013","75014","75015","75016","75017","75018","75019","75020"];
 const AMBIANCES_RESTO  = ["Toutes","Romantique","Zen","Convivial","Authentique","Festif"];
 const AMBIANCES_BAR    = ["Toutes","Décontracté","Rooftop","Vintage","Convivial","Festif"];
 
-const ACCOUNTS = [
-  { email:"pro@test.fr",  password:"1234", nom:"Jean Restaurateur", role:"pro",  etablissement:"Le Jardin Secret", onboarded:true },
-  { email:"user@test.fr", password:"1234", nom:"Marie Dupont",       role:"user", onboarded:true },
-];
 
 const Logo = ({ light }) => (
   <div style={{ display:"flex", alignItems:"center", gap:10 }}>
@@ -248,29 +223,22 @@ const Toast = ({ msg, onHide }) => {
 };
 
 const FilterPill = ({ label, options, value, onChange, isObj }) => {
-  const [open, setOpen] = useState(false);
-  const ref = useRef();
-  useEffect(() => {
-    const h = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, []);
   const defVal = isObj ? options[0]?.value : options[0];
   const isActive = value !== defVal;
   const display = isObj ? (options.find(o => o.value===value)?.label || label) : (isActive ? value : label);
   return (
-    <div ref={ref} style={{ position:"relative" }}>
-      <button onClick={() => setOpen(o => !o)} style={{ display:"flex", alignItems:"center", gap:5, padding:"8px 14px", borderRadius:30, border:`1.5px solid ${isActive?"#C8914A":"#DDD"}`, background:isActive?"#FBF0E8":"#FFF", color:isActive?"#C8914A":"#666", fontSize:13, fontWeight:isActive?700:500, cursor:"pointer", fontFamily:"'Lato',sans-serif", whiteSpace:"nowrap" }}>
-        {display}<span style={{ fontSize:9, opacity:0.5 }}>▼</span>
-      </button>
-      {open && (
-        <div style={{ position:"absolute", top:"calc(100% + 6px)", left:0, background:"#FFF", borderRadius:14, padding:6, boxShadow:"0 8px 32px rgba(0,0,0,0.14)", zIndex:300, minWidth:170, border:"1px solid #F0EDE8", maxHeight:220, overflowY:"auto" }}>
-          {options.map(o => {
-            const val=isObj?o.value:o, lbl=isObj?o.label:o, sel=value===val;
-            return <button key={val} onClick={() => { onChange(val); setOpen(false); }} style={{ display:"block", width:"100%", textAlign:"left", padding:"8px 12px", border:"none", borderRadius:8, background:sel?"#FBF0E8":"none", color:sel?"#C8914A":"#444", fontWeight:sel?700:400, fontSize:13, cursor:"pointer", fontFamily:"'Lato',sans-serif" }}>{lbl}</button>;
-          })}
-        </div>
-      )}
+    <div style={{ position:"relative" }}>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        style={{ appearance:"none", WebkitAppearance:"none", display:"flex", alignItems:"center", padding:"8px 28px 8px 14px", borderRadius:30, border:`1.5px solid ${isActive?"#C8914A":"#DDD"}`, background:isActive?"#FBF0E8":"#FFF", color:isActive?"#C8914A":"#666", fontSize:13, fontWeight:isActive?700:500, cursor:"pointer", fontFamily:"'Lato',sans-serif", whiteSpace:"nowrap", outline:"none" }}>
+        <option value={defVal}>{label}</option>
+        {options.map(o => {
+          const val=isObj?o.value:o, lbl=isObj?o.label:o;
+          return <option key={val} value={val}>{lbl}</option>;
+        })}
+      </select>
+      <span style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", fontSize:9, color:isActive?"#C8914A":"#666", pointerEvents:"none" }}>▼</span>
     </div>
   );
 };
@@ -409,7 +377,8 @@ const AuthModal = ({ mode, onClose, onAuth }) => {
   const submit = async () => {
     setErr(""); setLoading(true);
     if (!form.email || !form.password) { setLoading(false); return setErr("Veuillez remplir tous les champs obligatoires."); }
-if (!isValidEmail(form.email.trim())) { setLoading(false); return setErr("Adresse email invalide."); }
+    if (!form.email.includes("@")) { setLoading(false); return setErr("Adresse email invalide."); }
+
     try {
       if (tab === "login") {
         // ── Connexion Supabase ──
@@ -724,9 +693,9 @@ const FicheModal = ({ lieu, user, onClose, onReserve, onAuthNeeded, onToast }) =
     await supabase.from("avis").insert({
       etablissement_id: lieu.id,
       user_id: user.id,
-      auteur: sanitizeInput(user.nom, 100),
+      auteur: user.nom,
       note: reviewForm.note,
-      texte: sanitizeInput(reviewForm.texte.trim(), 2000),
+      texte: reviewForm.texte,
       verifie: true,
     });
     setAvis(a => [{ auteur:user.nom, note:reviewForm.note, date:"Maintenant", texte:reviewForm.texte, verifie:true }, ...a]);
@@ -985,18 +954,10 @@ const DashboardPhotos = ({ lieu, user }) => {
     loadPhotos();
   }, []);
 
-  const addPhotos = async (e) => {
+const addPhotos = async (e) => {
     const files = Array.from(e.target.files);
-    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-    const MAX_SIZE = 5 * 1024 * 1024;
-    const invalidFiles = files.filter(f => {
-      if (!ALLOWED_TYPES.includes(f.type)) return true;
-      if (f.size > MAX_SIZE) return true;
-      const ext = f.name.split('.').pop().toLowerCase();
-      if (!['jpg', 'jpeg', 'png', 'webp'].includes(ext)) return true;
-      return false;
-    });
-    if (invalidFiles.length > 0) { alert("Formats acceptés : JPG, PNG, WebP. Taille max : 5 Mo."); e.target.value = ""; return; }
+    const oversized = files.filter(f => f.size > 5 * 1024 * 1024);
+    if (oversized.length > 0) { alert("Certaines photos dépassent 5 Mo. Veuillez choisir des fichiers plus légers."); e.target.value = ""; return; }
     const newPhotos = [];
     for (const file of files) {
       const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
@@ -1691,6 +1652,34 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("tous");
   const [activeView, setActiveView] = useState("explore");
   const [selectedCollection, setSelectedCollection] = useState(null);
+  const [lieuxSupabase, setLieuxSupabase] = useState([]);
+
+  useEffect(() => {
+    const loadEtablissements = async () => {
+      const { data } = await supabase.from("etablissements").select("*");
+      if (data && data.length > 0) {
+        setLieuxSupabase(data.map(e => ({
+          id: e.id,
+          categorie: e.type?.toLowerCase().includes("bar") ? "bar" : "restaurant",
+          name: e.name || "Sans nom",
+          type: e.type || "",
+          arrondissement: e.arrondissement || "",
+          ambiance: e.ambiance || "",
+          note: 4.0, tempsRoute: 10,
+          adresse: e.adresse || "", tel: e.tel || "",
+          priceRange: e.price_range || "€€",
+          tags: [], premium: true, places: e.places || 0,
+          description: e.description || "",
+          coords: { lat: 48.8566, lng: 2.3522 },
+          schedule: [{ days:[0,1,2,3,4,5,6], open:"09:00", close:"22:00" }],
+          social: {}, menu: e.menu || [],
+          offers: [], events: [], avis: [],
+          photosUrls: e.photos || [],
+        })));
+      }
+    };
+    loadEtablissements();
+  }, []);
   const [filters, setFilters] = useState({ type:"Tous", arr:"Tous", ambiance:"Toutes", prix:"Tous", horaire:"tous", sortBy:"note" });
   const [proOnboarding, setProOnboarding] = useState(false);
   const [toast, setToast] = useState("");
@@ -1700,14 +1689,16 @@ export default function App() {
   const changeView = (v) => { setActiveView(v); setSelectedCollection(null); window.scrollTo({top:0,behavior:"smooth"}); };
 
   if (user?.role==="pro" && proOnboarding) return <OnboardingPro user={user} onDone={(ficheData) => { user.ficheData=ficheData; user.onboarded=true; setProOnboarding(false); }} />;
-  if (user?.role==="pro") return <DashboardPro user={user} onLogout={() => { setUser(null); setProOnboarding(false); }} />;
+  if (user?.role==="pro") return <DashboardPro user={user} onLogout={async () => { await supabase.auth.signOut(); setUser(null); setProOnboarding(false); }} />;
 
   const typesOpts = activeTab==="bar" ? TYPES_BAR : TYPES_RESTAURANT;
   const ambiancesOpts = activeTab==="bar" ? AMBIANCES_BAR : AMBIANCES_RESTO;
   const resetFilters = () => setFilters({ type:"Tous", arr:"Tous", ambiance:"Toutes", prix:"Tous", horaire:"tous", sortBy:"note" });
   const hasFilter = filters.type!=="Tous"||filters.arr!=="Tous"||filters.ambiance!=="Toutes"||filters.prix!=="Tous"||filters.horaire!=="tous";
 
-  const baseLieux = selectedCollection ? LIEUX.filter(l => selectedCollection.ids.includes(l.id)) : LIEUX;
+  lieuxSupabase.forEach(l => { if (l.photosUrls?.length > 0) PHOTOS[l.id] = l.photosUrls; });
+  const allLieux = [...LIEUX, ...lieuxSupabase];
+  const baseLieux = selectedCollection ? allLieux.filter(l => selectedCollection.ids.includes(l.id)) : allLieux;
   const filtered = baseLieux.filter(l => {
     if (activeTab!=="tous" && l.categorie!==activeTab) return false;
     if (search && ![l.name,l.type,...l.tags].join(" ").toLowerCase().includes(search.toLowerCase())) return false;
@@ -1746,7 +1737,7 @@ export default function App() {
               <button onClick={() => setSurpriseOpen(true)} style={{ display:"flex", alignItems:"center", gap:6, padding:"7px 14px", borderRadius:20, border:"1.5px solid #E8C882", background:"linear-gradient(135deg,#FBF0E8,#FFF5EC)", color:"#C8914A", fontWeight:700, fontSize:13, cursor:"pointer", fontFamily:"'Lato',sans-serif" }}>🎲 Surprise</button>
               {user ? <>
                 <span style={{ fontSize:13, color:"#888" }}>👋 {user.nom.split(" ")[0]}</span>
-                <button onClick={() => setUser(null)} style={{ ...S.btnOutline, padding:"7px 14px", fontSize:12 }}>Déconnexion</button>
+                <button onClick={async () => { await supabase.auth.signOut(); setUser(null); }} style={{ ...S.btnOutline, padding:"7px 14px", fontSize:12 }}>Déconnexion</button>
               </> : <>
                 <button onClick={() => setAuthModal("login")} style={{ ...S.btnOutline, padding:"7px 16px", fontSize:13 }}>Connexion</button>
                 <button onClick={() => setAuthModal("user")} style={{ ...S.btnPrimary, padding:"7px 16px", fontSize:13 }}>Créer un compte</button>
@@ -1926,16 +1917,14 @@ export default function App() {
         <FicheModal lieu={selectedLieu} user={user} onClose={() => setSelectedLieu(null)}
           onAuthNeeded={() => { setSelectedLieu(null); setAuthModal("user"); }}
           onReserve={async (form) => {
-  if (selectedLieu) {
-    await supabase.from("reservations").insert({
-      etablissement_id: selectedLieu.id,
-      nom: sanitizeInput(user?.nom || "Anonyme", 100),
-      date: sanitizeInput(form.date, 20),
-      couverts: Math.min(Math.max(parseInt(form.couverts) || 1, 1), 20),
-      message: sanitizeInput(form.message || "", 500),
-      statut: "En attente",
-    });
-  }
+  await supabase.from("reservations").insert({
+    etablissement_id: selectedLieu.id,
+    nom: user?.nom || "Anonyme",
+    date: form.date,
+    couverts: form.couverts,
+    message: form.message || "",
+    statut: "En attente",
+  });
   setConfirmation({ lieu:selectedLieu, form });
   setSelectedLieu(null);
 }}
