@@ -737,7 +737,7 @@ const FicheModal = ({ lieu, user, onClose, onReserve, onAuthNeeded, onToast }) =
   const TABS = isMobile ? TABS_M : TABS_D;
   return (
     <div style={S.overlay} onClick={onClose}>
-      <div style={{ ...S.modal, maxWidth:620, padding:0, overflow:"hidden" }} onClick={e => e.stopPropagation()}>
+      <div style={{ ...S.modal, maxWidth:620, padding:0, overflow:"hidden", maxHeight:"95vh", display:"flex", flexDirection:"column" }} onClick={e => e.stopPropagation()}>
         <div style={{ position:"relative", height:isMobile?130:170, overflow:"hidden", background:"#12080A" }}>
           <img src={PHOTOS[lieu.id]?.[0]} alt="" style={{ width:"100%", height:"100%", objectFit:"cover", opacity:0.72 }} onError={e => e.target.style.display="none"} />
           <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(18,8,10,0.9) 0%,rgba(18,8,10,0.2) 65%,transparent 100%)" }} />
@@ -766,7 +766,7 @@ const FicheModal = ({ lieu, user, onClose, onReserve, onAuthNeeded, onToast }) =
             <button key={k} onClick={() => setTab(k)} style={{ flexShrink:0, padding:isMobile?"10px 10px":"10px 12px", border:"none", background:tab===k?"#FFF":"none", color:tab===k?"#C8914A":"#999", fontWeight:tab===k?700:400, fontSize:isMobile?16:12, cursor:"pointer", fontFamily:"'Lato',sans-serif", borderBottom:tab===k?"2px solid #C8914A":"2px solid transparent", whiteSpace:"nowrap" }}>{l}</button>
           ))}
         </div>
-        <div style={{ padding:isMobile?"14px 14px":"22px", maxHeight:"80vh", overflowY:"auto" }}>
+        <div style={{ padding:isMobile?"14px 14px":"22px", maxHeight:"100%", flex:1, overflowY:"auto" }}>
           {tab==="info" && (
             <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
               <p style={{ margin:0, color:"#555", lineHeight:1.7, fontSize:14 }}>{lieu.description}</p>
