@@ -766,7 +766,7 @@ const FicheModal = ({ lieu, user, onClose, onReserve, onAuthNeeded, onToast }) =
             <button key={k} onClick={() => setTab(k)} style={{ flexShrink:0, padding:isMobile?"10px 10px":"10px 12px", border:"none", background:tab===k?"#FFF":"none", color:tab===k?"#C8914A":"#999", fontWeight:tab===k?700:400, fontSize:isMobile?16:12, cursor:"pointer", fontFamily:"'Lato',sans-serif", borderBottom:tab===k?"2px solid #C8914A":"2px solid transparent", whiteSpace:"nowrap" }}>{l}</button>
           ))}
         </div>
-        <div style={{ padding:isMobile?"14px 14px":"22px", maxHeight:isMobile?"60vh":"70vh", overflowY:"auto" }}>
+        <div style={{ padding:isMobile?"14px 14px":"22px", maxHeight:"80vh", overflowY:"auto" }}>
           {tab==="info" && (
             <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
               <p style={{ margin:0, color:"#555", lineHeight:1.7, fontSize:14 }}>{lieu.description}</p>
