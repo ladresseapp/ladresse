@@ -890,7 +890,7 @@ const FicheModal = ({ lieu, user, onClose, onReserve, onAuthNeeded, onToast }) =
                   <button key={m} onClick={() => onToast(`Itinéraire ${m} lancé`)} style={{ ...S.btnOutline, flex:1, padding:"8px 4px", fontSize:12 }}>{m}</button>
                 ))}
               </div>
-              <div style={{ background:"#F9F7F4", borderRadius:10, padding:"11px 13px", fontSize:13, color:"#666" }}>📍 {lieu.adresse}<br />⏱ Environ <strong>{lieu.tempsRoute} min</strong> depuis votre position</div>
+              <div style={{ background:"#F9F7F4", borderRadius:10, padding:"11px 13px", fontSize:13, color:"#666" }}>📍 {lieu.adresse}<br /></div>
             </div>
           )}
           {tab==="reserve" && (isBar ? (
