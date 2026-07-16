@@ -738,8 +738,6 @@ const FicheModal = ({ lieu, user, onClose, onReserve, onAuthNeeded, onToast }) =
             <div style={{ display:"flex", gap:8, alignItems:"center", flexWrap:"wrap" }}>
               <Stars note={lieu.note} />
               <span style={{ color:"rgba(255,255,255,0.4)" }}>·</span>
-              <span style={{ color:"#E8C882", fontSize:12 }}>⏱ {lieu.tempsRoute} min</span>
-              <span style={{ color:"rgba(255,255,255,0.4)" }}>·</span>
               <OpenBadge schedule={lieu.schedule} small overlay />
             </div>
           </div>
