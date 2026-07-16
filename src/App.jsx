@@ -1650,7 +1650,7 @@ const Card = ({ lieu, onOpen }) => {
         <div style={{ margin:"7px 0" }}><Stars note={lieu.note} /></div>
         <p style={{ fontSize:12, color:"#777", margin:"0 0 10px", lineHeight:1.55, height:48, overflow:"hidden" }}>{lieu.description}</p>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-          <span style={{ fontSize:11, color:"#AAA" }}>✨ {lieu.ambiance} · ⏱ {lieu.tempsRoute} min</span>
+          <span style={{ fontSize:11, color:"#AAA" }}>✨ {lieu.ambiance}</span>
           <span style={{ fontSize:12, color:"#C8914A", fontWeight:800 }}>Voir →</span>
         </div>
       </div>
