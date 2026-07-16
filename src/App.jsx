@@ -886,10 +886,8 @@ const FicheModal = ({ lieu, user, onClose, onReserve, onAuthNeeded, onToast }) =
                 <span style={{ color:"#BBB", fontSize:11 }}>{lieu.coords.lat}, {lieu.coords.lng}</span>
               </div>
               <div style={{ display:"flex", gap:8 }}>
-                {["🚶 À pied","🚗 Voiture","🚇 Métro"].map(m => (
-                  <button key={m} onClick={() => onToast(`Itinéraire ${m} lancé`)} style={{ ...S.btnOutline, flex:1, padding:"8px 4px", fontSize:12 }}>{m}</button>
-                ))}
-              </div>
+            
+             </div>
               <div style={{ background:"#F9F7F4", borderRadius:10, padding:"11px 13px", fontSize:13, color:"#666" }}>📍 {lieu.adresse}<br /></div>
             </div>
           )}
