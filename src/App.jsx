@@ -2,9 +2,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 // ─── SUPABASE CLIENT ───────────────────────────────────────────────────────────
-const SUPABASE_URL = "https://pyvruioduqkyiwezqmdh.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5dnJ1aW9kdXFreWl3ZXpxbWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODU1NzMsImV4cCI6MjA5MTY2MTU3M30.e31b6Apvd4VYYS-UOnCFzKAd-0YuTNu7ZhPClmZQPMg";
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_URL = "https://gpzsqiopcnaesybcfxfd.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwenNxaW9wY25hZXN5YmNmeGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMDY5ODgsImV4cCI6MjA5OTY4Mjk4OH0.ye9BX4GPU_DWnLBzT6l8KEL04Ee1-DeCFwN35Ge7EJM";const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const sanitizeHTML = (str) => {
   if (typeof str !== 'string') return '';
